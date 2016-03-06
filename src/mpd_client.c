@@ -124,7 +124,7 @@ int callback_mpd(struct mg_connection *c)
             break;
         case MPD_API_SET_VOLUME:
             if(sscanf(c->content, "MPD_API_SET_VOLUME,%ud", &uint_buf) && uint_buf <= 100)
-                mpd_run_set_volume(mpd.conn, uint_buf);
+                mpd_run_set_volume(mpd.conn, uint_buf/3);
             break;
         case MPD_API_SET_SEEK:
             if(sscanf(c->content, "MPD_API_SET_SEEK,%u,%u", &uint_buf, &uint_buf_2))
@@ -436,7 +436,7 @@ int mpd_put_state(char *buffer, int *current_song_id, unsigned *queue_version)
         " \"currentsongid\": %d"
         "}}", 
         mpd_status_get_state(status),
-        mpd_status_get_volume(status), 
+        mpd_status_get_volume(status)*3, 
         mpd_status_get_repeat(status),
         mpd_status_get_single(status),
         mpd_status_get_crossfade(status),
