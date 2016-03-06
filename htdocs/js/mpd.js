@@ -262,6 +262,22 @@ function webSocketConnect() {
                 case "browse":
                     if(current_app !== 'browse' && current_app !== 'search')
                         break;
+                
+                    obj.data.sort(function (a,b) {
+                        if (a.type == 'wrap' || b.type == 'wrap') return 0;
+                        var map = {
+                                'directory' : 'dir',
+                                'playlist': 'plist',
+                                'song' : 'uri'
+                        }
+                        if (a[map[a.type]].toLowerCase() < b[map[b.type]].toLowerCase()) {
+                                return -1
+                        }
+                        if (a[map[a.type]].toLowerCase() > b[map[b.type]].toLowerCase()) {
+                                return 1
+                        }
+                        return 0
+                    })
 
                     /* The use of encodeURI() below might seem useless, but it's not. It prevents
                      * some browsers, such as Safari, from changing the normalization form of the
